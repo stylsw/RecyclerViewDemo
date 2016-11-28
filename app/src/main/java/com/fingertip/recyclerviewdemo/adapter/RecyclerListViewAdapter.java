@@ -52,24 +52,26 @@ public abstract class RecyclerListViewAdapter<T> extends RecyclerView.Adapter<Re
     public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
         onBindItemView(holder,mDatas.get(position),position);
 
-        holder.getItemView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mOnItemClickListener == null)
-                    return;
-                mOnItemClickListener.onItemClick(holder,view,position);
-            }
-        });
+        if(mOnItemClickListener != null) {
+            holder.getItemView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mOnItemClickListener.onItemClick(holder,view,position);
+                }
+            });
+        }
 
-        holder.getItemView().setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if(mOnItemLongClickListener == null)
+        if(mOnItemLongClickListener != null){
+            holder.getItemView().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    mOnItemLongClickListener.onItemLongClick(holder,view,position);
                     return false;
-                mOnItemLongClickListener.onItemLongClick(holder,view,position);
-                return false;
-            }
-        });
+                }
+            });
+        }
+
     }
 
     @Override
